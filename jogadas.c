@@ -3,13 +3,36 @@
 #include <stdio.h>
 #include <curses.h>
 #include<stdbool.h>
+#include <time.h>
 
 #include "jogadas.h"
 
+int *joga_sortear_cores() {
+
+    int *cores_sorteadas = (int *) malloc(4 * sizeof(int)), random;
+
+    srand(time(NULL));
+    
+    for(int i = 0; i < 4; i++) {
+        random = rand() % 7;
+        for (int j = 0; j < i; j++) {
+            if (random == cores_sorteadas[j]) {
+                random = rand() % 7;
+                j = -1;
+            }
+        }
+        
+        cores_sorteadas[i] = random;
+    }
+    
+    return cores_sorteadas;
+}
+
 void jogar(int *objetivo){
-    for(int i = 0; i < 1; i++) {
+    int pontos = 0;
+    for(int i = 0; i < 10; i++) {
         int *jogada = joga_le_jogada();
-        if(joga_verifica_jogada(objetivo, jogada)) {
+        if(joga_verifica_jogada(objetivo, jogada, &pontos)) {
             return;
         }
     }
@@ -17,64 +40,42 @@ void jogar(int *objetivo){
     printf("Acabaram suas tentativas!\n\tGAME OVER\n");
 }
 
-int *joga_sortear_cores() {
-    int *cores_sorteadas = (int *) malloc(4 * sizeof(int));
-    cores_sorteadas[0] = 7;
-    cores_sorteadas[1] = 7;
-    cores_sorteadas[2] = 7;
-    cores_sorteadas[3] = 7;
-    
-    for(int i = 0; i < 4; i++) {
-        int pos_sorteada = rand() % 7;
-        if(cores_sorteadas[i] != pos_sorteada) {
-            cores_sorteadas[i] = pos_sorteada;
-        } else {
-            i--;
-        }
-    }
-    
-    return cores_sorteadas;
-}
-
 int *joga_le_jogada() {
    int *jogada = (int *) malloc(4 * sizeof(int));
 
    do {
     printf("Insira sua jogada:\n");
-    if(scanf("%d %d %d %d", &jogada[0], &jogada[1], &jogada[2], &jogada[3]) != 1) {
-        puts("Insira apenas números!\n");
-        jogada[0] = 7;
-        jogada[1] = 7;
-        jogada[2] = 7;
-        jogada[3] = 7;
+    for(int i = 0; i < 4; i++) {
+        jogada[i] = leia_int();
     }
-   } while (valida_jogadas(jogada));
-   
-   
+   } while (valida_jogadas(jogada));   
    
    return jogada;
 }
 
-bool joga_verifica_jogada(int *objetivo, int *jogada) {
-    int acertos = 0;
+bool joga_verifica_jogada(int *objetivo, int *jogada, int *pontos) {
 
-    for(int i = 0; i < 4; i++) {
-        if(objetivo[i] == jogada[i]) {
-            acertos++;
-        }
+    /*  
+    *   • Conta quantas cores estão corretas e quantas estão no lugar correto;
+    *   • Pontuar;
+    *   • testar se precisa chamar uma atualização de ranking;
+    *   • Encerrar a partida (dar opção de jogar de novo);
+    */
+
+    int quant_pretos = conta_pretos(objetivo, jogada);
+    int quant_brancos = conta_brancos(objetivo, jogada);
+
+    pontos += quant_pretos*5 + quant_brancos*3;
+
+    for(int i = 0; i < quant_pretos; i++) {
+        printf("• ");
     }
 
-    /*  TODO: Vai virar uma função dedicada, pois deverá:
-    *   • Pontuar;
-    *   • Chamar uma atualização de ranking;
-    *   • Encerrar a partida (dar opção de jogar de novo);
-    *   • Gerenciar a tela dos itens acima;
-    * 
-    *   TODO: Tenho que verificar a posição dos números;
-    */
-    printf("Acertos: %d\n", acertos);
-    if(acertos == 4) {
-        printf("Parabéns você acertou!");
+    for(int i = 0; i < quant_brancos; i++) {
+        printf("○ ");
+    }
+
+    if(quant_pretos = 4) {
         return true;
     }
 
@@ -83,7 +84,31 @@ bool joga_verifica_jogada(int *objetivo, int *jogada) {
 
 // Funções Auxiliares:
 
-// se vai ser usada uma tela, n tem necessidade...
+int conta_pretos(int *objetivo, int *jogada) {
+    int pretos = 0;
+
+    for(int i = 0; i < 4; i++) {
+        if(objetivo[i] == jogada[i]) {
+            pretos++;
+        }
+    }
+
+    return pretos;
+}
+
+int conta_brancos(int *objetivo, int *jogada) {
+    int brancos = 0;
+
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            if(jogada[i] == objetivo[j] && i != j) {
+                brancos++;
+            }
+        }
+    }
+
+    return brancos;
+}
 
 bool valida_jogadas(int *jogada) {
     for(int i = 0; i < 4; i++) {
@@ -93,4 +118,14 @@ bool valida_jogadas(int *jogada) {
     }
 
     return true;
+}
+
+int leia_int() {
+    int var;
+	while (scanf("%d", &var) != 1) {
+		scanf("%*[^\n]");
+		printf("\nInforme apenas numeros!\n");
+	}
+
+    return var;
 }
