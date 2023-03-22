@@ -5,17 +5,17 @@
 
 // 
 
-#define AMARELO 0
-#define AZUL 1
-#define BRANCO 2
-#define LARANJA 3
-#define ROXO 4
-#define VERDE 5
-#define VERMELHO 6
+#define AZUL        1
+#define BRANCO      2
+#define CIANO       3
+#define DOURADO     4
+#define ESMERALDA   5
+#define FERRUGEM    6
+#define GRIS        7
 
-void jogar(int *objetivo);
+void jogar(char **objetivo);
 
-int *joga_sortear_cores();
+char **joga_sortear_cores();
 
 int *joga_le_jogada();
 

@@ -7,30 +7,36 @@
 
 #include "jogadas.h"
 
-int *joga_sortear_cores() {
-
-    int *cores_sorteadas = (int *) malloc(4 * sizeof(int)), random;
+char **joga_sortear_cores() {
+    
+    int random;
+    char cores[7][2] = {{'a', 'A'}, {'b', 'B'}, {'c', 'C'}, {'d', 'D'}, {'e', 'E'}, {'f', 'F'}, {'g', 'G'}};
+    char **cores_sorteadas = (char **) malloc(4 * sizeof(char *));
+    for(int i = 0; i < 4; i++) {
+        cores_sorteadas[i] = (char *) malloc(2 * sizeof(char));
+    }
 
     srand(time(NULL));
     
     for(int i = 0; i < 4; i++) {
         random = rand() % 7;
         for (int j = 0; j < i; j++) {
-            if (random == cores_sorteadas[j]) {
+            if (cores[random][0] == cores_sorteadas[j][0]) {
                 random = rand() % 7;
                 j = -1;
             }
         }
         
-        cores_sorteadas[i] = random;
+        cores_sorteadas[i][0] = cores[random][0];
+        cores_sorteadas[i][1] = cores[random][1];
     }
     
     return cores_sorteadas;
 }
 
-void jogar(int *objetivo){
+void jogar(char **objetivo){
     int pontos = 0;
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 9; i++) {
         int *jogada = joga_le_jogada();
         if(joga_verifica_jogada(objetivo, jogada, &pontos)) {
             return;
@@ -41,7 +47,7 @@ void jogar(int *objetivo){
 }
 
 int *joga_le_jogada() {
-   int *jogada = (int *) malloc(4 * sizeof(int));
+   char *jogada = (char *) malloc(4 * sizeof(char));
 
    do {
     printf("Insira sua jogada:\n");
@@ -53,7 +59,7 @@ int *joga_le_jogada() {
    return jogada;
 }
 
-bool joga_verifica_jogada(int *objetivo, int *jogada, int *pontos) {
+bool joga_verifica_jogada(char **objetivo, int *jogada, int *pontos) {
 
     /*  
     *   • Conta quantas cores estão corretas e quantas estão no lugar correto;
@@ -62,8 +68,8 @@ bool joga_verifica_jogada(int *objetivo, int *jogada, int *pontos) {
     *   • Encerrar a partida (dar opção de jogar de novo);
     */
 
-    int quant_pretos = conta_pretos(objetivo, jogada);
-    int quant_brancos = conta_brancos(objetivo, jogada);
+    //int quant_pretos = conta_pretos(objetivo, jogada);
+    //int quant_brancos = conta_brancos(objetivo, jogada);
 
     pontos += quant_pretos*5 + quant_brancos*3;
 
@@ -120,9 +126,9 @@ bool valida_jogadas(int *jogada) {
     return true;
 }
 
-int leia_int() {
+int leia_char() {
     int var;
-	while (scanf("%d", &var) != 1) {
+	while (scanf("%c", &var) != 1) {
 		scanf("%*[^\n]");
 		printf("\nInforme apenas numeros!\n");
 	}
