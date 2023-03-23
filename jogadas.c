@@ -124,11 +124,11 @@ bool valida_jogadas(char *jogada) {
 void leia_char(char *var) {
     scanf("%s", var);
 
-    if(strcmp(var,"?") == 0 || strcmp(var,"!") == 0 || strcmp(var,";") == 0) {
+    /*if(strcmp(var,"?") == 0 || strcmp(var,"!") == 0 || strcmp(var,";") == 0) {
         return;
-    }
+    }*/
 
-    while (strlen(var) != 4) {
+    while ((strlen(var) != 4) && !(strcmp(var,"?") != 0 || strcmp(var,"!") != 0 || strcmp(var,";") != 0)) {
         puts("As jogadas devem ser feitas usando 4 símbolos, "
         "não utilize mais ou menos do que isso!\nInsira sua jogada novamente:");
         scanf("%s", var);
