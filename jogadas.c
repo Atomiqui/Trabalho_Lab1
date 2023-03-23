@@ -36,9 +36,12 @@ char **joga_sortear_cores() {
 
 void jogar(char **objetivo){
     int pontos = 0;
+    char *jogada = (char *) malloc(4 * sizeof(char));
+
     for(int i = 0; i < 9; i++) {
-        int *jogada = joga_le_jogada();
+        joga_le_jogada(jogada);
         if(joga_verifica_jogada(objetivo, jogada, &pontos)) {
+            // parabens voce ganhou
             return;
         }
     }
@@ -46,20 +49,13 @@ void jogar(char **objetivo){
     printf("Acabaram suas tentativas!\n\tGAME OVER\n");
 }
 
-int *joga_le_jogada() {
-   char *jogada = (char *) malloc(4 * sizeof(char));
-
-   do {
-    printf("Insira sua jogada:\n");
-    for(int i = 0; i < 4; i++) {
-        jogada[i] = leia_int();
-    }
-   } while (valida_jogadas(jogada));   
-   
-   return jogada;
+void joga_le_jogada(char *jogada) {
+    do {
+        printf("Insira sua jogada:\n");
+    } while (valida_jogadas(jogada));
 }
 
-bool joga_verifica_jogada(char **objetivo, int *jogada, int *pontos) {
+bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
 
     /*  
     *   • Conta quantas cores estão corretas e quantas estão no lugar correto;
@@ -68,21 +64,14 @@ bool joga_verifica_jogada(char **objetivo, int *jogada, int *pontos) {
     *   • Encerrar a partida (dar opção de jogar de novo);
     */
 
-    //int quant_pretos = conta_pretos(objetivo, jogada);
-    //int quant_brancos = conta_brancos(objetivo, jogada);
+    if(strcmp(jogada, "?") == 0) {
 
-    pontos += quant_pretos*5 + quant_brancos*3;
+    } else if(strcmp(jogada, "!") == 0) {
 
-    for(int i = 0; i < quant_pretos; i++) {
-        printf("• ");
-    }
+    } else if(strcmp(jogada, ";") == 0) {
 
-    for(int i = 0; i < quant_brancos; i++) {
-        printf("○ ");
-    }
+    } else {
 
-    if(quant_pretos = 4) {
-        return true;
     }
 
     return false;
@@ -90,7 +79,7 @@ bool joga_verifica_jogada(char **objetivo, int *jogada, int *pontos) {
 
 // Funções Auxiliares:
 
-int conta_pretos(int *objetivo, int *jogada) {
+/*int conta_pretos(int *objetivo, int *jogada) {
     int pretos = 0;
 
     for(int i = 0; i < 4; i++) {
@@ -100,9 +89,9 @@ int conta_pretos(int *objetivo, int *jogada) {
     }
 
     return pretos;
-}
+}*/
 
-int conta_brancos(int *objetivo, int *jogada) {
+/*int conta_brancos(int *objetivo, int *jogada) {
     int brancos = 0;
 
     for(int i = 0; i < 4; i++) {
@@ -114,24 +103,34 @@ int conta_brancos(int *objetivo, int *jogada) {
     }
 
     return brancos;
-}
+}*/
 
-bool valida_jogadas(int *jogada) {
-    for(int i = 0; i < 4; i++) {
-        if(jogada[i] < 0 || jogada[i] > 6) {
-            return false;
-        } 
+bool valida_jogadas(char *jogada) {
+    leia_char(jogada);
+
+    if(strcmp(jogada,"?") == 0 || strcmp(jogada,"!") == 0 || strcmp(jogada,";") == 0) {
+        return true;
     }
 
+    for(int i = 0; i < 4; i++) {
+        if(!((jogada[i] >= 'a' && jogada[i] <= 'g') || (jogada[i] >= 'A' && jogada[i] <= 'G'))) {
+            printf("\"%c\" não é um caracter válido!\nSe precisar digite \"?\" para vizualizar os comandos.", jogada[i]);
+            return false;
+        }
+    }
     return true;
 }
 
-int leia_char() {
-    int var;
-	while (scanf("%c", &var) != 1) {
-		scanf("%*[^\n]");
-		printf("\nInforme apenas numeros!\n");
-	}
+void leia_char(char *var) {
+    scanf("%s", var);
 
-    return var;
+    if(strcmp(var,"?") == 0 || strcmp(var,"!") == 0 || strcmp(var,";") == 0) {
+        return;
+    }
+
+    while (strlen(var) != 4) {
+        puts("As jogadas devem ser feitas usando 4 símbolos, "
+        "não utilize mais ou menos do que isso!\nInsira sua jogada novamente:");
+        scanf("%s", var);
+    }
 }
