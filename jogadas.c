@@ -1,13 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <curses.h>
-#include<stdbool.h>
+#include <stdbool.h>
 #include <time.h>
 
 #include "jogadas.h"
 
 char **joga_sortear_cores() {
-    
     int random;
     char cores[7][2] = {{'a', 'A'}, {'b', 'B'}, {'c', 'C'}, {'d', 'D'}, {'e', 'E'}, {'f', 'F'}, {'g', 'G'}};
     char **cores_sorteadas = (char **) malloc(4 * sizeof(char *));
@@ -35,6 +34,7 @@ char **joga_sortear_cores() {
 void jogar(char **objetivo){
     int pontos = 0;
     char *jogada = (char *) malloc(4 * sizeof(char));
+    print_regras();
 
     for(int i = 0; i < 9; i++) {
         joga_le_jogada(jogada);
@@ -43,7 +43,7 @@ void jogar(char **objetivo){
                 printf("\tGAME OVER\n");
                 return;
             }
-            // parabens voce ganhou
+            printf("Parabéns, você acertou a combinação secreta!\nSeu score é: %d.", pontos);
             return;
         }
     }
@@ -59,24 +59,8 @@ void joga_le_jogada(char *jogada) {
 
 bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
 
-    /*  
-    *   • Conta quantas cores estão corretas e quantas estão no lugar correto;
-    *   • Pontuar;
-    *   • testar se precisa chamar uma atualização de ranking;
-    *   • Encerrar a partida (dar opção de jogar de novo);
-    */
-
     if(strcmp(jogada, "?") == 0) {
-        printf("\tREGRAS\n"
-        "A/a - AZUL\n"
-        "B/b - BEGE\n"
-        "C/c - CIANO\n"
-        "D/d - DOURADO\n"
-        "E/e - ESMERALDA\n"
-        "F/f - FERRUGEM\n"
-        "G/g - GRIS\n"
-        " !  - Ver respostas anteriores.\n"
-        " ;  - Desistir.\n");
+        print_regras();
     } else if(strcmp(jogada, "!") == 0) {
 
     } else if(strcmp(jogada, ";") == 0) {
@@ -85,8 +69,11 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
     } else {
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
-        pontos += 
+        *pontos += pretos*5 + brancos*3;
         printf("Pretos: %d.\nBrancos: %d.\n", pretos, brancos);
+        if(pretos == 4) {
+            return true;
+        }
     }
 
     return false;
@@ -137,20 +124,51 @@ bool valida_jogadas(char *jogada) {
 }
 
 void leia_char(char *var) {
-    bool repetidos;
     scanf("%s", var);
+    bool tamanho = strlen(var) != 4;
+    bool rep = repetidos(var);
 
-
-
-    while ((strlen(var) != 4) && ) {
+    while (tamanho || rep) {
         if((strcmp(var,"?") == 0 || strcmp(var,"!") == 0 || strcmp(var,";") == 0)) {
             return;
         }
 
-        puts("As jogadas devem ser feitas usando 4 símbolos, "
-        "não utilize mais ou menos do que isso!\nInsira sua jogada novamente:");
+        if(rep) {
+            printf("As jogadas não devem conter cores repetidas!\n");
+        }
+
+        if(tamanho) {
+            puts("As jogadas devem ser feitas usando 4 símbolos, "
+                 "não utilize mais ou menos do que isso!\n");
+        }
+
+        puts("Tente novamente!");
         scanf("%s", var);
-
-
+        tamanho = strlen(var) != 4;
+        rep = repetidos(var);
     }
+}
+
+bool repetidos(char *jogada) {
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            if((jogada[i] == jogada[j] || jogada[i]+32 == jogada[j] || jogada[i]-32 == jogada[j]) && i != j) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void print_regras() {
+    printf("\tREGRAS\n"
+        "A/a - AZUL\n"
+        "B/b - BEGE\n"
+        "C/c - CIANO\n"
+        "D/d - DOURADO\n"
+        "E/e - ESMERALDA\n"
+        "F/f - FERRUGEM\n"
+        "G/g - GRIS\n"
+        " !  - Ver respostas anteriores.\n"
+        " ;  - Desistir.\n");
 }

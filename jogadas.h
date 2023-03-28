@@ -30,4 +30,8 @@ int conta_pretos(char **objetivo, char *jogada);
 
 int conta_brancos(char **objetivo, char *jogada);
 
+bool repetidos(char *jogada);
+
+void print_regras();
+
 #endif // JOGADAS_H
