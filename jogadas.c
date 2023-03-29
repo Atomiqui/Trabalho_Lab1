@@ -70,6 +70,7 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
         *pontos += pretos*5 + brancos*3;
+        desenha_retangulos(jogada);
         printf("Pretos: %d.\nBrancos: %d.\n", pretos, brancos);
         if(pretos == 4) {
             return true;
@@ -171,4 +172,9 @@ void print_regras() {
         "G/g - GRIS\n"
         " !  - Ver respostas anteriores.\n"
         " ;  - Desistir.\n");
+}
+
+void desenha_retangulos(char *jogada) {
+    
+
 }

@@ -67,3 +67,5 @@ até adivinhar ou desistir ou acabarem as chances
 
 ## Construção do trabalho:
 Validção está sendo bem chatinho de elaborar e pensar sobre as possibilidades.
+
+To criando todas as funções dentro de jogadas.c/.h e depois passo para tela.c/.h o que for relacionado a tela.
