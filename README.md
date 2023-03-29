@@ -69,3 +69,9 @@ até adivinhar ou desistir ou acabarem as chances
 Validção está sendo bem chatinho de elaborar e pensar sobre as possibilidades.
 
 To criando todas as funções dentro de jogadas.c/.h e depois passo para tela.c/.h o que for relacionado a tela.
+
+Para executar o mastermind.c:
+gcc mastermind.c jogadas.c -o mastermind
+
+Para executar o teste.c:
+gcc -o teste teste.c -lncurses
