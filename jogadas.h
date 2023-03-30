@@ -35,4 +35,9 @@ bool repetidos(char *jogada);
 
 void print_regras();
 
+void desenha_retangulos(char *jogada, int pretos, int brancos);
+
+void inicia_ncurses();
+int calc_num_letra(char letra);
+
 #endif // JOGADAS_H

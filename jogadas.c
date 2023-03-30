@@ -70,7 +70,7 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
         *pontos += pretos*5 + brancos*3;
-        desenha_retangulos(jogada);
+        desenha_retangulos(jogada, pretos, brancos);
         printf("Pretos: %d.\nBrancos: %d.\n", pretos, brancos);
         if(pretos == 4) {
             return true;
@@ -174,7 +174,67 @@ void print_regras() {
         " ;  - Desistir.\n");
 }
 
-void desenha_retangulos(char *jogada) {
-    
+void desenha_retangulos(char *jogada, int pretos, int brancos) {
+    inicia_ncurses();
 
+    int x = 3, y = 1, largura = 5, altura = 3;
+    
+    for(int i = 0; i < 4 ; i++) {
+        WINDOW* retangulo = newwin(altura, largura, y, x);
+        int j = calc_num_letra(jogada[i]);
+        wbkgd(retangulo, COLOR_PAIR(j));
+        mvwprintw(retangulo, 1, 2, "%c", jogada[i]);
+        refresh();
+        wrefresh(retangulo);
+        x += largura+1;
+    }
+
+    int brancos_alem = brancos-pretos;
+    x = 35;
+
+    for(int i = 0; i < brancos; i++) {
+        WINDOW* retangulo = newwin(altura, largura, y, x);
+        if(pretos > i) {
+            wbkgd(retangulo, COLOR_PAIR(8));
+        } else {
+            wbkgd(retangulo, COLOR_PAIR(9));
+        }
+        refresh();
+        wrefresh(retangulo);
+        x += largura+1;
+    }
+    
+    getch();
+    endwin();
+}
+
+void inicia_ncurses() {
+    initscr();
+    start_color();
+
+    // Descobri que a cor com identificador '0' é colocada como cor de fundo do terminal.
+    // Define a cor de fundo do terminal como cinza.
+    init_color(0, 300, 300, 300);
+
+    init_color(1, 0, 0, 1000);      // azul
+    init_color(2, 965, 915, 670);   // bege
+    init_color(3, 0, 1000, 1000);   // ciano
+    init_color(4, 1000, 765, 0);    // dourado
+    init_color(5, 0, 1000, 500);    // esmeralda
+    init_color(6, 780, 300, 0);     // ferrugem
+    init_color(7, 450, 500, 540);   // gris
+    init_color(8, 0, 0, 0);   // gris
+    init_color(9, 1000, 1000, 1000);   // gris
+    
+    for(int i = 1; i < 10; i++) {
+        init_pair(i, COLOR_WHITE, i);
+    }
+}
+
+int calc_num_letra(char letra) {
+    if(letra >= 'a' && letra <= 'g') {
+        return letra - 'a' + 1;
+    } else {
+        return letra - 'A' + 1;
+    }
 }
