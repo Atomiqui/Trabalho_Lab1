@@ -1,18 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "jogadas.h"
-//#include "tela.h"
 
 int main() {
     printf("\tBem vindo ao Mastermind!\n");
 
     char controle, **objetivo = joga_sortear_cores();
     // Descomente para ver o segredo sorteado ao início:
-    printf("O segredo sorteado foi: %c %c %c %c\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
-
-    //tela_cria();
+    //printf("O segredo sorteado foi: %c %c %c %c\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
 
     do {
         jogar(objetivo);
@@ -24,7 +17,7 @@ int main() {
         }
     } while (controle == 'y' || controle == 'Y');
 
-    printf("Obrigado por jogar, espero que tenha se divertido e não encontrado nenhum bug! ;)\n");
+    printf("Obrigado por jogar, espero que tenha se divertido e não tenha encontrado nenhum bug! ;)\n");
 
     return 0;
 }

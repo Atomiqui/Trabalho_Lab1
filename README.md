@@ -72,7 +72,7 @@ To criando todas as funções dentro de jogadas.c/.h e depois passo para tela.c/
 
 Para executar o mastermind.c:
 ```
-gcc mastermind.c jogadas.c -o mastermind
+gcc -o mastermind mastermind.c jogadas.c tela.c -lncurses
 ```
 
 Para executar o teste.c:
@@ -80,8 +80,8 @@ Para executar o teste.c:
 gcc -o teste teste.c -lncurses
 ```
 
-* Organizar as funções dentro de suas bibliotecas corretas
 * Otimizar as funções;
 * Contar a quantidade de linhas em cada função;
 * Criar ranking;
 * Opção de rever jogadas.
+* Sempre que fizer uma jogada vai abrir uma tela para mostrar os retangulos e o jogador vai ter que  clicar em um botão qualquer para fechar a tela, colocar esse aviso.

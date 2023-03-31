@@ -2,42 +2,31 @@
 #define JOGADAS_H
 
 #include <stdbool.h>
-#include <string.h>
 #include <ncurses.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include "tela.h"
 
-// 
-
-#define AZUL        1
-#define BRANCO      2
-#define CIANO       3
-#define DOURADO     4
-#define ESMERALDA   5
-#define FERRUGEM    6
-#define GRIS        7
-
-void jogar(char **objetivo);
-
+// Retorna uma string com 4 letras aleatórias que representam o objetivo do jogador.
 char **joga_sortear_cores();
 
-void joga_le_jogada(char *jogada);
+// Laço que define o funcionamento do jogo e a quantidade de jogadas possíveis.
+void jogar(char **objetivo);
 
+/*  
+*   - Retorna true quando o jogador desiste, e assim encerra o laço;
+*   - Retorna true quando o jogador acerta a combinação secreta;
+*   - Retorna false quando o jogador erra a combinação (jogar de novo).
+*/
 bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos);
 
-bool valida_jogadas(char *jogada);
+// Funções Auxiliares:
 
-void leia_char(char *jogada);
-
+// Conta a quantidade de cores no lugar correto.
 int conta_pretos(char **objetivo, char *jogada);
 
+// Conta a quantidade de cores corretas (não precisa estar na posição correta).
 int conta_brancos(char **objetivo, char *jogada);
-
-bool repetidos(char *jogada);
-
-void print_regras();
-
-void desenha_retangulos(char *jogada, int pretos, int brancos);
-
-void inicia_ncurses();
-int calc_num_letra(char letra);
 
 #endif // JOGADAS_H
