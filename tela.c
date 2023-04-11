@@ -47,12 +47,14 @@ void tela_desenha_retangulos(char *jogada, int pretos, int brancos) {
     int brancos_alem = brancos-pretos;
     x = 35;
 
-    for(int i = 0; i < brancos; i++) {
+    for(int i = 0; i < 4; i++) {
         WINDOW* retangulo = newwin(altura, largura, y, x);
         if(pretos > i) {
             wbkgd(retangulo, COLOR_PAIR(8));
-        } else {
+        } else if(brancos > i){
             wbkgd(retangulo, COLOR_PAIR(9));
+        } else {
+            wbkgd(retangulo, COLOR_PAIR(0));
         }
         refresh();
         wrefresh(retangulo);

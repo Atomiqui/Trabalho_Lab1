@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "tela.h"
+#include "ranking.h"
 
 // Retorna uma string com 4 letras aleatórias que representam o objetivo do jogador.
 char **joga_sortear_cores();
@@ -28,5 +29,12 @@ int conta_pretos(char **objetivo, char *jogada);
 
 // Conta a quantidade de cores corretas (não precisa estar na posição correta).
 int conta_brancos(char **objetivo, char *jogada);
+
+// Multiplica os pontos obtidos com base no quão cedo o jogado advinhou
+void pontua(int *pontos, int i);
+
+void rankear(int *pontos);
+
+char *le_nickname();
 
 #endif // JOGADAS_H

@@ -15,6 +15,6 @@ FILE *open_file(char *nome, char *operation);
 int *le_ranking();
 
 // Atualiza o ranking
-void escreve_ranking(int *ranking, int novo_score);
+void escreve_ranking(int *ranking, int novo_score, char *nome);
 
 #endif // RANKING_H
