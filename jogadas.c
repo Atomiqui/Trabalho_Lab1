@@ -56,7 +56,7 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
     } else if(strcmp(jogada, "!") == 0) {
 
     } else if(strcmp(jogada, ";") == 0) {
-        pontos = 0;
+        *pontos = 0;
         return true;
     } else {
         int pretos = conta_pretos(objetivo, jogada);
