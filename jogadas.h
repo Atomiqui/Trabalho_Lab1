@@ -34,7 +34,7 @@ int conta_brancos(char **objetivo, char *jogada);
 void pontua(int *pontos, int i);
 
 void rankear(int *pontos);
-
 char *le_nickname();
+void print_objetivo(char **objetivo);
 
 #endif // JOGADAS_H

@@ -35,6 +35,7 @@ void jogar(char **objetivo){
         if(joga_verifica_jogada(objetivo, jogada, &pontos)) {
             if(pontos == 0) {
                 printf("\tGAME OVER\n");
+                print_objetivo(objetivo);
                 return;
             }
             pontua(&pontos, i);
@@ -45,6 +46,13 @@ void jogar(char **objetivo){
     }
 
     printf("Acabaram suas tentativas!\n\tGAME OVER\n");
+    print_objetivo(objetivo);
+
+}
+
+void print_objetivo(char **objetivo) {
+    printf("A sequencia correta era: %c%c%c%c\n\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
+    printa
 }
 
 bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
