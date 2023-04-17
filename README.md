@@ -72,7 +72,7 @@ To criando todas as funções dentro de jogadas.c/.h e depois passo para tela.c/
 
 Para executar o mastermind.c:
 ```
-gcc -o mastermind mastermind.c jogadas.c tela.c -lncurses
+gcc -o mastermind mastermind.c jogadas.c tela.c ranking.c -lncurses
 ```
 
 Para executar o teste.c:
@@ -85,3 +85,13 @@ gcc -o teste teste.c -lncurses
 * Criar ranking;
 * Opção de rever jogadas.
 * Sempre que fizer uma jogada vai abrir uma tela para mostrar os retangulos e o jogador vai ter que  clicar em um botão qualquer para fechar a tela, colocar esse aviso.
+
+```
+testeseila | 4760
+testeseila | 3760
+testeseila | 3560
+testeseila | 2760
+testeseila | 2560
+```
+
+* comando: ; está pontuando igual.

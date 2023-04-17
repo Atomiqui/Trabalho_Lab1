@@ -115,11 +115,15 @@ void pontua(int *pontos, int i) {
 
 void rankear(int *pontos) {
     int *ranking = le_ranking();
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 5; i++) {
         if(*pontos > ranking[i]) {
             char *nome = le_nickname();
             escreve_ranking(ranking, *pontos, nome);
+            break;
         }
+    }
+    for(int i = 0; i < 5; i++) {
+        printf("Rk%d: %d\n", i, ranking[i]);
     }
 }
 
@@ -127,4 +131,6 @@ char *le_nickname() {
     char *nome = malloc(15 * sizeof(char));
     printf("Parabés! Você teve um ótimo desempenho, queremos registrar isso.\nInforme seu nome (no máximo 15 caracteres): ");
     scanf("%s", nome);
+
+    return nome;
 }
