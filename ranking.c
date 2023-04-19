@@ -39,20 +39,23 @@ int *le_ranking() {
 
 // Atualiza o ranking
 void escreve_ranking(int *ranking, int novo_score, char *nome) {
-    for(int i = 0; i < 5; i++) {
-        if(ranking[i] < novo_score) {
-            printf("%d > %d", ranking[i], novo_score);
+    for(int i = 4; i >= 0; i--) {
+        bool verifica = true;
+        if(i != 0) {
+            verifica = novo_score <= ranking[i-1];
+            printf("%d < %d?", novo_score, ranking[i-1]);
+            if(verifica) printf("sim!");
+        } 
+        if(novo_score > ranking[i] && verifica) {
             ranking[i] = novo_score;
+            break;
         }
     }
-
     FILE *arq = fopen("ranking.txt", "w"); //open_file(NOME, WT);
-    
-    for(int i = 4; i >= 0; i--) {
+    for(int i = 0; i < 5; i++) {
         char str[30];
         sprintf(str, "%s | %d\n", nome, ranking[i]);
         fputs(str, arq);
     }
-
     fclose(arq);
 }

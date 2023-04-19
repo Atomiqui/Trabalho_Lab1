@@ -7,9 +7,7 @@ char **joga_sortear_cores() {
     for(int i = 0; i < 4; i++) {
         cores_sorteadas[i] = (char *) malloc(2 * sizeof(char));
     }
-
     srand(time(NULL));
-    
     for(int i = 0; i < 4; i++) {
         random = rand() % 7;
         for (int j = 0; j < i; j++) {
@@ -21,22 +19,19 @@ char **joga_sortear_cores() {
         cores_sorteadas[i][0] = cores[random][0];
         cores_sorteadas[i][1] = cores[random][1];
     }
-    
     return cores_sorteadas;
 }
 
 void jogar(char **objetivo){
     int pontos = 1350;
     char **historico = malloc(10 * sizeof(char*));
-    /*for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 10; i++) {
         historico[i] = malloc(4 * sizeof(char));
-    }*/
+    }
     char *jogada = (char *) malloc(4 * sizeof(char));
-    tela_print_regras();
-
     for(int i = 0; i < 10; i++) {
         tela_le_jogada(jogada);
-        if(joga_verifica_jogada(objetivo, jogada, &pontos, historico)) {
+        if(joga_verifica_jogada(objetivo, jogada, &pontos, historico, &i)) {
             if(pontos == 0) {
                 printf("\tGAME OVER\n");
                 print_objetivo(objetivo);
@@ -48,10 +43,8 @@ void jogar(char **objetivo){
             return;
         }
     }
-
     printf("Acabaram suas tentativas!\n\tGAME OVER\n");
     print_objetivo(objetivo);
-
 }
 
 void print_objetivo(char **objetivo) {
@@ -66,27 +59,22 @@ void print_objetivo(char **objetivo) {
     }
 }
 
-bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **historico) {
-
+bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **historico, int *i) {
     int pts = 100;
 
     if(strcmp(jogada, "?") == 0) {
+        *i -= 1;
         tela_print_regras();
     } else if(strcmp(jogada, "!") == 0) {
-        for(int i = 0; i < 10; i++) {
-            if(historico[i] != NULL) {
-                printf("%s\n", historico[i]);
-            }
+        for(int j = 0; j < *i; j++) {
+            printf("%s\n", historico[j]);
         }
+        *i -= 1;
     } else if(strcmp(jogada, ";") == 0) {
         *pontos = 0;
         return true;
     } else {
-        int i = 0;
-        while (historico[i] != NULL) {
-            i++;
-        }
-        historico[i] = jogada;
+        strcpy(historico[*i], jogada);
         
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
@@ -138,7 +126,7 @@ void pontua(int *pontos, int i) {
     } else if( i < 7) {
         *pontos *= 2;
     } else {
-        *pontos *= 1.5;
+        *pontos *= 1.4;
     }
 }
 
