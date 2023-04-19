@@ -20,7 +20,7 @@ void jogar(char **objetivo);
 *   - Retorna true quando o jogador acerta a combinação secreta;
 *   - Retorna false quando o jogador erra a combinação (jogar de novo).
 */
-bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos);
+bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **historico);
 
 // Funções Auxiliares:
 

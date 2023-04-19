@@ -27,12 +27,16 @@ char **joga_sortear_cores() {
 
 void jogar(char **objetivo){
     int pontos = 1350;
+    char **historico = malloc(10 * sizeof(char*));
+    /*for(int i = 0; i < 10; i++) {
+        historico[i] = malloc(4 * sizeof(char));
+    }*/
     char *jogada = (char *) malloc(4 * sizeof(char));
     tela_print_regras();
 
-    for(int i = 0; i < 9; i++) {
+    for(int i = 0; i < 10; i++) {
         tela_le_jogada(jogada);
-        if(joga_verifica_jogada(objetivo, jogada, &pontos)) {
+        if(joga_verifica_jogada(objetivo, jogada, &pontos, historico)) {
             if(pontos == 0) {
                 printf("\tGAME OVER\n");
                 print_objetivo(objetivo);
@@ -51,22 +55,39 @@ void jogar(char **objetivo){
 }
 
 void print_objetivo(char **objetivo) {
-    printf("A sequencia correta era: %c%c%c%c\n\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
-    printa
+    char objetivo2[4] = {objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]};
+    printf("A sequencia correta era: %s\n\n", objetivo2);
+
+    char cont;
+    printf("Gostaria de ver as cores?\n[1] - sim\n[2] - não\n");
+    scanf(" %c", &cont);
+    if(cont == '1') {
+        tela_desenha_retangulos(objetivo2, 0 ,0);
+    }
 }
 
-bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos) {
+bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **historico) {
 
     int pts = 100;
 
     if(strcmp(jogada, "?") == 0) {
         tela_print_regras();
     } else if(strcmp(jogada, "!") == 0) {
-
+        for(int i = 0; i < 10; i++) {
+            if(historico[i] != NULL) {
+                printf("%s\n", historico[i]);
+            }
+        }
     } else if(strcmp(jogada, ";") == 0) {
         *pontos = 0;
         return true;
     } else {
+        int i = 0;
+        while (historico[i] != NULL) {
+            i++;
+        }
+        historico[i] = jogada;
+        
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
 
