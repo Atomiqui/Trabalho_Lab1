@@ -12,7 +12,8 @@ void tela_print_regras() {
         "F/f - FERRUGEM\n"
         "G/g - GRIS\n"
         " !  - Ver respostas anteriores.\n"
-        " ;  - Desistir.\n");
+        " ;  - Desistir.\n"
+        " ?  - Ver regras.\n");
 }
 
 void tela_le_jogada(char *jogada) {

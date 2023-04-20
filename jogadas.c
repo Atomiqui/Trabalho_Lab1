@@ -37,9 +37,11 @@ void jogar(char **objetivo){
                 print_objetivo(objetivo);
                 return;
             }
-            pontua(&pontos, i);
-            printf("Parabéns, você acertou a combinação secreta!\nSeu score é: %d.", pontos);
+            pontos = pontua(pontos, i);
+            printf("Parabéns, você acertou a combinação secreta!\nSeu score é: %d.\n", pontos);
+            printa_ranking();
             rankear(&pontos);
+            libera_mem(historico);
             return;
         }
     }
@@ -66,8 +68,19 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **his
         *i -= 1;
         tela_print_regras();
     } else if(strcmp(jogada, "!") == 0) {
+        printf("\tJogadas anteriores:\n");
         for(int j = 0; j < *i; j++) {
-            printf("%s\n", historico[j]);
+            printf("%s | ", historico[j]);
+            int pretos = conta_pretos(objetivo, historico[j]);
+            int brancos = conta_brancos(objetivo, historico[j]);
+            for(int j = 0; j < 4; j++) {
+                if(pretos > j) {
+                    printf("•");
+                } else if(brancos > j){
+                    printf("○");
+                }
+            }
+            puts("\n");
         }
         *i -= 1;
     } else if(strcmp(jogada, ";") == 0) {
@@ -79,8 +92,8 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **his
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
 
-        pts -= (4 - brancos) * 5;
-        pts -= (4 - pretos) * 10;
+        if(brancos == 0) pts -= (4/(brancos+1)) * 5;
+        if(pretos == 0) pts -= (4/(pretos+1)) * 3;
 
         *pontos -= pts;
 
@@ -120,14 +133,11 @@ int conta_brancos(char **objetivo, char *jogada) {
     return brancos;
 }
 
-void pontua(int *pontos, int i) {
+int pontua(int pontos, int i) {
     if(i < 4) {
-        *pontos *= 4;
-    } else if( i < 7) {
-        *pontos *= 2;
-    } else {
-        *pontos *= 1.4;
-    }
+        return pontos * ((10-i)*2);
+    } 
+    return pontos * (10-i);
 }
 
 void rankear(int *pontos) {
@@ -136,18 +146,26 @@ void rankear(int *pontos) {
         if(*pontos > ranking[i]) {
             char *nome = le_nickname();
             escreve_ranking(ranking, *pontos, nome);
+            free(nome);
             break;
         }
     }
-    for(int i = 0; i < 5; i++) {
+    /*for(int i = 0; i < 5; i++) {
         printf("Rk%d: %d\n", i, ranking[i]);
-    }
+    }*/
+    free(ranking);
 }
 
 char *le_nickname() {
     char *nome = malloc(15 * sizeof(char));
     printf("Parabés! Você teve um ótimo desempenho, queremos registrar isso.\nInforme seu nome (no máximo 15 caracteres): ");
     scanf("%s", nome);
-
     return nome;
+}
+
+void libera_mem(char **historico) {
+    for(int i = 0; i < 10; i++) {
+        free(historico[i]);
+    }
+    free(historico);
 }

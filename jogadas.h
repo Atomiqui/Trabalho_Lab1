@@ -31,10 +31,11 @@ int conta_pretos(char **objetivo, char *jogada);
 int conta_brancos(char **objetivo, char *jogada);
 
 // Multiplica os pontos obtidos com base no quão cedo o jogado advinhou
-void pontua(int *pontos, int i);
+int pontua(int pontos, int i);
 
 void rankear(int *pontos);
 char *le_nickname();
 void print_objetivo(char **objetivo);
+void libera_mem(char **historico);
 
 #endif // JOGADAS_H

@@ -16,6 +16,8 @@ FILE *open_file(char *nome, char *operation);
 // Abre um arquivo para leitura e retorna um vetor com as pontuações do ranking
 int *le_ranking();
 
+void printa_ranking();
+
 // Atualiza o ranking
 void escreve_ranking(int *ranking, int novo_score, char *nome);
 

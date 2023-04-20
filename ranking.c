@@ -8,10 +8,9 @@ FILE *open_file(char *nome, char *operation) {
 
 // Abre um arquivo para leitura e retorna um vetor com as pontuações do ranking
 int *le_ranking() {
-    FILE *arq = fopen("ranking.txt", "r"); //open_file(NOME, RT);
+    FILE *arq = fopen("ranking.txt", "r");
     if(arq == NULL) {
-        //puts("problema pra abrir o arquivo!");
-        arq = fopen("ranking.txt", "w"); //open_file(NOME, WT);
+        arq = fopen("ranking.txt", "w");
     }
 
     int *ranking = malloc(5 * sizeof(int));
@@ -21,20 +20,35 @@ int *le_ranking() {
 
         if(fgets(linha, 30, arq) != NULL) {
             int j = 0, k = 0;
+
             while(linha[j++] != '|') {
                 // Econtra o |
             }
             for(j+=1; j < strlen(linha); j++) {
                 temp[k++] = linha[j];
             }
-            //printf("temp:%s\n", temp);
             ranking[i] = atoi(temp);
-            //printf("ranking[i]:%d\n", ranking[i]);
         }
     }
 
     fclose(arq);
     return ranking;
+}
+
+void printa_ranking() {
+    FILE *arq = fopen("ranking.txt", "r");
+    if(arq == NULL) {
+        arq = fopen("ranking.txt", "w");
+    }
+
+    printf("\tRANKING\n");
+    for(int i = 0; i < 5; i++) {
+        char linha[30];
+        fgets(linha, 30, arq);
+        printf("%s", linha);
+    }
+
+    fclose(arq);
 }
 
 // Atualiza o ranking
@@ -43,19 +57,19 @@ void escreve_ranking(int *ranking, int novo_score, char *nome) {
         bool verifica = true;
         if(i != 0) {
             verifica = novo_score <= ranking[i-1];
-            printf("%d < %d?", novo_score, ranking[i-1]);
-            if(verifica) printf("sim!");
+            //printf("%d < %d?", novo_score, ranking[i-1]);
+            //if(verifica) printf("sim!");
         } 
         if(novo_score > ranking[i] && verifica) {
-            ranking[i] = novo_score;
+            FILE *arq = fopen("ranking.txt", "w");
+            for(int i = 0; i < 5; i++) {
+                char str[30];
+                sprintf(str, "%s | %d\n", nome, ranking[i]);
+                fputs(str, arq);
+            }
             break;
         }
     }
-    FILE *arq = fopen("ranking.txt", "w"); //open_file(NOME, WT);
-    for(int i = 0; i < 5; i++) {
-        char str[30];
-        sprintf(str, "%s | %d\n", nome, ranking[i]);
-        fputs(str, arq);
-    }
+    
     fclose(arq);
 }
