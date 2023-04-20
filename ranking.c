@@ -7,7 +7,7 @@ FILE *open_file(char *nome, char *operation) {
 }
 
 // Abre um arquivo para leitura e retorna um vetor com as pontuações do ranking
-int *le_ranking() {
+int *le_ranking(char **nomes) {
     FILE *arq = fopen("ranking.txt", "r");
     if(arq == NULL) {
         arq = fopen("ranking.txt", "w");
@@ -15,15 +15,23 @@ int *le_ranking() {
 
     int *ranking = malloc(5 * sizeof(int));
     for(int i = 0; i < 5; i++) {
-        char linha[30], temp[10];
+        char linha[30], temp[15];
         ranking[i] = 0;
 
         if(fgets(linha, 30, arq) != NULL) {
             int j = 0, k = 0;
 
-            while(linha[j++] != '|') {
+            while(linha[j] != '|') {
+                if(linha[j+1] != '|') {
+                    nomes[i][j] = linha[j];
+                    nomes[i][j+1] = '\0';
+                    printf("%c", linha[j]);
+                }
+                j++;
                 // Econtra o |
             }
+            puts("\n");
+            
             for(j+=1; j < strlen(linha); j++) {
                 temp[k++] = linha[j];
             }
@@ -48,23 +56,30 @@ void printa_ranking() {
         printf("%s", linha);
     }
 
+    puts("\n");
+
     fclose(arq);
 }
 
 // Atualiza o ranking
-void escreve_ranking(int *ranking, int novo_score, char *nome) {
+void escreve_ranking(int *ranking, int novo_score, char *nome, char **nomes) {
+    FILE *arq;
     for(int i = 4; i >= 0; i--) {
         bool verifica = true;
         if(i != 0) {
             verifica = novo_score <= ranking[i-1];
-            //printf("%d < %d?", novo_score, ranking[i-1]);
-            //if(verifica) printf("sim!");
-        } 
+        }
         if(novo_score > ranking[i] && verifica) {
-            FILE *arq = fopen("ranking.txt", "w");
+            arq = fopen("ranking.txt", "w");
+            for(int j = 4; j > i; j--) {
+                ranking[j] = ranking[j-1];
+                strcpy(nomes[j], nomes[j-1]);
+            }
+            ranking[i] = novo_score;
+            strcpy(nomes[i], nome);
             for(int i = 0; i < 5; i++) {
                 char str[30];
-                sprintf(str, "%s | %d\n", nome, ranking[i]);
+                sprintf(str, "%s | %d\n", nomes[i], ranking[i]);
                 fputs(str, arq);
             }
             break;

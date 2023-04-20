@@ -141,11 +141,15 @@ int pontua(int pontos, int i) {
 }
 
 void rankear(int *pontos) {
-    int *ranking = le_ranking();
+    char **nomes = malloc(5 * sizeof(char *));
+    for(int i = 0; i < 5; i++) {
+        nomes[i] = malloc(15 * sizeof(char));
+    }
+    int *ranking = le_ranking(nomes);
     for(int i = 0; i < 5; i++) {
         if(*pontos > ranking[i]) {
             char *nome = le_nickname();
-            escreve_ranking(ranking, *pontos, nome);
+            escreve_ranking(ranking, *pontos, nome, nomes);
             free(nome);
             break;
         }

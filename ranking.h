@@ -14,11 +14,11 @@
 FILE *open_file(char *nome, char *operation);
 
 // Abre um arquivo para leitura e retorna um vetor com as pontuações do ranking
-int *le_ranking();
+int *le_ranking(char **nomes);
 
 void printa_ranking();
 
 // Atualiza o ranking
-void escreve_ranking(int *ranking, int novo_score, char *nome);
+void escreve_ranking(int *ranking, int novo_score, char *nome, char **nomes);
 
 #endif // RANKING_H
