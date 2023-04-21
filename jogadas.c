@@ -92,8 +92,16 @@ bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **his
         int pretos = conta_pretos(objetivo, jogada);
         int brancos = conta_brancos(objetivo, jogada);
 
-        if(brancos == 0) pts -= (4/(brancos+1)) * 5;
-        if(pretos == 0) pts -= (4/(pretos+1)) * 3;
+        if(brancos == 0) {
+            pts -= (4/(brancos+1)) * 5;
+        } else {
+            pts -= (4/(brancos)) * 5;
+        }
+        if(pretos == 0) {
+            pts -= (4/(pretos+1)) * 3;
+        } else {
+            pts -= (4/(pretos)) * 3;
+        }
 
         *pontos -= pts;
 

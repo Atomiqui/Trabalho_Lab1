@@ -1,5 +1,5 @@
 teste5 | 25000
 teste2 | 20700
-teste1 | 13804
-testeseila | 4760
-teste3 | 4050
+teste5 | 25000
+teste6 | 16800
+teste2 | 0
