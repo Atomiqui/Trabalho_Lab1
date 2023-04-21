@@ -1,5 +1,2 @@
-teste5 | 25000
-teste2 | 20700
-teste5 | 25000
-teste6 | 16800
-teste2 | 0
+alisson2 | 5610
+alisson | 3048

@@ -147,3 +147,40 @@ int calc_num_letra(char letra) {
         return letra - 'A' + 1;
     }
 }
+
+void print_objetivo(char **objetivo) {
+    char objetivo2[4] = {objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]};
+    printf("A sequencia correta era: %s\n\n", objetivo2);
+
+    char cont;
+    printf("Gostaria de ver as cores?\n[1] - sim\n[2] - não\n");
+    scanf(" %c", &cont);
+    if(cont == '1') {
+        tela_desenha_retangulos(objetivo2, 0 ,0);
+    }
+}
+
+void jogadas_anteriores(char **historico, char **objetivo, int *i) {
+    printf("\tJogadas anteriores:\n");
+    for(int j = 0; j < *i; j++) {
+        printf("%s | ", historico[j]);
+        int pretos = conta_pretos(objetivo, historico[j]);
+        int brancos = conta_brancos(objetivo, historico[j]);
+        for(int j = 0; j < 4; j++) {
+            if(pretos > j) {
+                printf("•");
+            } else if(brancos > j){
+                printf("○");
+            }
+        }
+        puts("\n");
+    }
+    *i -= 1;
+}
+
+char *le_nickname() {
+    char *nome = malloc(15 * sizeof(char));
+    printf("Parabés! Você teve um ótimo desempenho, queremos registrar isso.\nInforme seu nome (no máximo 15 caracteres): ");
+    scanf("%s", nome);
+    return nome;
+}

@@ -24,11 +24,11 @@ char **joga_sortear_cores() {
 
 void jogar(char **objetivo){
     int pontos = 1350;
+    char *jogada = (char *) malloc(4 * sizeof(char));
     char **historico = malloc(10 * sizeof(char*));
     for(int i = 0; i < 10; i++) {
         historico[i] = malloc(4 * sizeof(char));
     }
-    char *jogada = (char *) malloc(4 * sizeof(char));
     for(int i = 0; i < 10; i++) {
         tela_le_jogada(jogada);
         if(joga_verifica_jogada(objetivo, jogada, &pontos, historico, &i)) {
@@ -37,78 +37,49 @@ void jogar(char **objetivo){
                 print_objetivo(objetivo);
                 return;
             }
-            pontos = pontua(pontos, i);
             printf("Parabéns, você acertou a combinação secreta!\nSeu score é: %d.\n", pontos);
             printa_ranking();
             rankear(&pontos);
+            free(jogada);
             libera_mem(historico);
             return;
         }
     }
     printf("Acabaram suas tentativas!\n\tGAME OVER\n");
     print_objetivo(objetivo);
-}
-
-void print_objetivo(char **objetivo) {
-    char objetivo2[4] = {objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]};
-    printf("A sequencia correta era: %s\n\n", objetivo2);
-
-    char cont;
-    printf("Gostaria de ver as cores?\n[1] - sim\n[2] - não\n");
-    scanf(" %c", &cont);
-    if(cont == '1') {
-        tela_desenha_retangulos(objetivo2, 0 ,0);
-    }
+    printa_ranking();
 }
 
 bool joga_verifica_jogada(char **objetivo, char *jogada, int *pontos, char **historico, int *i) {
-    int pts = 100;
-
     if(strcmp(jogada, "?") == 0) {
         *i -= 1;
         tela_print_regras();
     } else if(strcmp(jogada, "!") == 0) {
-        printf("\tJogadas anteriores:\n");
-        for(int j = 0; j < *i; j++) {
-            printf("%s | ", historico[j]);
-            int pretos = conta_pretos(objetivo, historico[j]);
-            int brancos = conta_brancos(objetivo, historico[j]);
-            for(int j = 0; j < 4; j++) {
-                if(pretos > j) {
-                    printf("•");
-                } else if(brancos > j){
-                    printf("○");
-                }
-            }
-            puts("\n");
-        }
-        *i -= 1;
+        jogadas_anteriores(historico, objetivo, i);
     } else if(strcmp(jogada, ";") == 0) {
         *pontos = 0;
         return true;
     } else {
-        strcpy(historico[*i], jogada);
-        
-        int pretos = conta_pretos(objetivo, jogada);
-        int brancos = conta_brancos(objetivo, jogada);
+        return verifica(historico, jogada, objetivo, pontos, i);
+    }
 
-        if(brancos == 0) {
-            pts -= (4/(brancos+1)) * 5;
-        } else {
-            pts -= (4/(brancos)) * 5;
-        }
-        if(pretos == 0) {
-            pts -= (4/(pretos+1)) * 3;
-        } else {
-            pts -= (4/(pretos)) * 3;
-        }
+    return false;
+}
 
-        *pontos -= pts;
+bool verifica(char **historico, char *jogada, char **objetivo, int *pontos, int *i) {
+    strcpy(historico[*i], jogada);
+    int pts = 100;
+    int pretos = conta_pretos(objetivo, jogada);
+    int brancos = conta_brancos(objetivo, jogada);
+    pts -= (4/(brancos+1)) * 5;
+    pts -= (4/(pretos+1)) * 3;
 
-        tela_desenha_retangulos(jogada, pretos, brancos);
-        if(pretos == 4) {
-            return true;
-        }
+    *pontos -= pts;
+    *pontos = pontua(*pontos);
+
+    tela_desenha_retangulos(jogada, pretos, brancos);
+    if(pretos == 4) {
+        return true;
     }
 
     return false;
@@ -159,20 +130,12 @@ void rankear(int *pontos) {
             char *nome = le_nickname();
             escreve_ranking(ranking, *pontos, nome, nomes);
             free(nome);
+            free(nomes[i]);
             break;
         }
     }
-    /*for(int i = 0; i < 5; i++) {
-        printf("Rk%d: %d\n", i, ranking[i]);
-    }*/
+    free(nomes);
     free(ranking);
-}
-
-char *le_nickname() {
-    char *nome = malloc(15 * sizeof(char));
-    printf("Parabés! Você teve um ótimo desempenho, queremos registrar isso.\nInforme seu nome (no máximo 15 caracteres): ");
-    scanf("%s", nome);
-    return nome;
 }
 
 void libera_mem(char **historico) {

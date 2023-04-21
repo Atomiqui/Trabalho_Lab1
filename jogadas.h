@@ -2,7 +2,7 @@
 #define JOGADAS_H
 
 #include <stdbool.h>
-#include <ncurses.h>
+//#include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -33,9 +33,13 @@ int conta_brancos(char **objetivo, char *jogada);
 // Multiplica os pontos obtidos com base no quão cedo o jogado advinhou
 int pontua(int pontos, int i);
 
+// Recebe pos pontos que o jogador fez, verifica se é digno do pódigo, se sim, grava seu nome
 void rankear(int *pontos);
-char *le_nickname();
-void print_objetivo(char **objetivo);
+
+// Liberar a memória se não o prof de lab1 me caça pela ufsm.
 void libera_mem(char **historico);
+
+// de fato faz a verificação da jogada, pontua e tudo mais!
+bool verifica(char **historico, char *jogada, char **objetivoint, int *pontos, int *i);
 
 #endif // JOGADAS_H

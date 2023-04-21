@@ -25,12 +25,10 @@ int *le_ranking(char **nomes) {
                 if(linha[j+1] != '|') {
                     nomes[i][j] = linha[j];
                     nomes[i][j+1] = '\0';
-                    printf("%c", linha[j]);
                 }
                 j++;
                 // Econtra o |
             }
-            puts("\n");
             
             for(j+=1; j < strlen(linha); j++) {
                 temp[k++] = linha[j];
@@ -52,8 +50,9 @@ void printa_ranking() {
     printf("\tRANKING\n");
     for(int i = 0; i < 5; i++) {
         char linha[30];
-        fgets(linha, 30, arq);
-        printf("%s", linha);
+        if(fgets(linha, 30, arq) != NULL) {
+            printf("%s", linha);
+        }
     }
 
     puts("\n");
@@ -80,7 +79,9 @@ void escreve_ranking(int *ranking, int novo_score, char *nome, char **nomes) {
             for(int i = 0; i < 5; i++) {
                 char str[30];
                 sprintf(str, "%s | %d\n", nomes[i], ranking[i]);
-                fputs(str, arq);
+                if(ranking[i] > 0) {
+                    fputs(str, arq);
+                }
             }
             break;
         }

@@ -51,4 +51,13 @@ void tela_desenha(char *jogada, int altura, int largura, int y, int x);
 */
 int calc_num_letra(char letra);
 
+// Mostra o objetivo para o jogador (tem opção para mostrar com cores :))
+void print_objetivo(char **objetivo);
+
+// Printa as jogadas anteriores, com direito a pontinhos (•○) para as dicas.
+void jogadas_anteriores(char **historico, char **objetivo, int *i);
+
+// Função para ler o nickname dessa lenda no pódio
+char *le_nickname();
+
 #endif // TELA_H
