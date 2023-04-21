@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 #include "tela.h"
+#include <stdlib.h>
+#include "jogadas.h"
 
 void tela_print_regras() {
     printf("\tREGRAS\n"

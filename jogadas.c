@@ -37,6 +37,7 @@ void jogar(char **objetivo){
                 print_objetivo(objetivo);
                 return;
             }
+            pontos = pontua(pontos, i);
             printf("Parabéns, você acertou a combinação secreta!\nSeu score é: %d.\n", pontos);
             printa_ranking();
             rankear(&pontos);
@@ -75,7 +76,6 @@ bool verifica(char **historico, char *jogada, char **objetivo, int *pontos, int 
     pts -= (4/(pretos+1)) * 3;
 
     *pontos -= pts;
-    *pontos = pontua(*pontos);
 
     tela_desenha_retangulos(jogada, pretos, brancos);
     if(pretos == 4) {

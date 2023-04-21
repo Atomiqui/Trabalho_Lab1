@@ -7,7 +7,7 @@ int main() {
     do {
         objetivo = joga_sortear_cores();
         // Descomente para ver o segredo sorteado ao início:
-        //printf("O segredo sorteado foi: %c %c %c %c\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
+        printf("O segredo sorteado foi: %c %c %c %c\n", objetivo[0][1], objetivo[1][1], objetivo[2][1], objetivo[3][1]);
         jogar(objetivo);
         printf("Quer jogar novamente?\n(Y/N)");
         scanf(" %c", &controle);
