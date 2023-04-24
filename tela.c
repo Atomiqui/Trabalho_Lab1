@@ -15,7 +15,8 @@ void tela_print_regras() {
         "G/g - GRIS\n"
         " !  - Ver respostas anteriores.\n"
         " ;  - Desistir.\n"
-        " ?  - Ver regras.\n");
+        " ?  - Ver regras.\n"
+        "Após cada jogada, pressione qualquer botão para fechar a tela.\n");
 }
 
 void tela_le_jogada(char *jogada) {

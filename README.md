@@ -42,5 +42,3 @@ _Criação de um jogo semelhante ao mastermind, conforme as especificações dad
 ```
 gcc -o mastermind mastermind.c jogadas.c tela.c ranking.c -lncurses
 ```
-
-### 
