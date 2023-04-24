@@ -1,5 +1,0 @@
-teste2 | 25000
-teste7 | 25000
-teste5 | 17328
-teste1 | 17264
-teste4 | 17056
